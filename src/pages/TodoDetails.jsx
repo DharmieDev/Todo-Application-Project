@@ -1,20 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router";
-import { getTask } from "../api/tasks";
 import { useTaskMutations } from "../hooks/useTasksMutation";
+import { useTask } from "../hooks/useTask";
 
 export default function TodoDetails() {
   const navigate = useNavigate();
   const { id: paramId } = useParams();
   const id = Number(paramId);
-  const { data, isLoading,isError } = useQuery({
-    queryKey: ["todos", id],
-    queryFn: () => getTask(id),
-    enabled: !!id
+  const { data, isLoading, isError } = useTask(id);
 
-  });
   const { updateMutation, deleteMutation } = useTaskMutations();
   const handleTask = (todo) => {
+    console.log(todo);
     updateMutation.mutate({
       id: todo.id,
       updates: {completed: !todo.completed}
@@ -29,11 +25,12 @@ export default function TodoDetails() {
     })
   }
   
+  
   if (isLoading) {
     return <span className="loading loading-spinner loading-xl"></span>
   }
   
-  if (isError) {
+  if (isError || !data) {
     return <span>Error fetching data</span>
   }
   

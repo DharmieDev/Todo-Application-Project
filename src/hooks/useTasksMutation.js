@@ -11,9 +11,14 @@ export const useTaskMutations = () => {
         { queryKey: ["todos"] },
         oldData => {
           if (!oldData?.todos) return oldData;
+          const newTodoId = {
+            ...newTask,
+            id: crypto.randomUUID()
+
+          }
           return {
             ...oldData,
-            todos: [newTask, ...oldData.todos],
+            todos: [newTodoId, ...oldData.todos],
             total: oldData.total + 1
           };
         }
@@ -22,18 +27,18 @@ export const useTaskMutations = () => {
   })
   
   const updateMutation = useMutation({
-    mutationFn: updateTask,
+    mutationFn: ({ id, updates }) => updateTask(id, updates),
     onSuccess: (updatedTask) => {
-      queryClient.setQueryData(["todos", updatedTask.id], updatedTask);
-      queryClient.setQueriesData({ queryKey: ["todos"] },
-        (oldData) => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            todos: oldData.todos.map(todo => todo.id === updatedTask.id ? updatedTask : todo)
-          }
-        }
-      );
+      const queries = queryClient.getQueriesData({ queryKey: ["todos"] });
+      queries.forEach(([queryKey, queryData]) => {
+        if (!queryData?.todos) return;
+        queryClient.setQueryData(queryKey, {
+          ...queryData,
+          todos: queryData.todos.map((todo) => todo.id === updatedTask.id ? updatedTask : todo)
+        })
+      })
+      
+      queryClient.setQueryData(["todos", "single", updatedTask.id], updatedTask);
     }
   });
   

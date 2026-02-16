@@ -2,17 +2,20 @@ import { useState } from "react"
 import { useTasks } from "../hooks/useTasks";
 import { Link, Outlet } from "react-router";
 import { useTaskMutations } from "../hooks/useTasksMutation";
+import TodoForm from "../components/TodoForm";
+import { useEffect } from "react";
 
 export default function TodoPage({ page, setPage, search }) {
   const [status, setStatus] = useState("all");
   const [newTodo, setNewTodo] = useState("");
+  const [completed, setCompleted] = useState(false);
   const { addMutation } = useTaskMutations();
   
   const handleAddTodo = () => {
     if (!newTodo.trim()) return;
     addMutation.mutate({
       todo: newTodo,
-      completed: false,
+      completed: completed,
       userId: 1
     });
     setNewTodo("");
@@ -50,7 +53,7 @@ export default function TodoPage({ page, setPage, search }) {
         {data.todos.map((todo) => (
           <li key={todo.id}>
             <Link to={`/todo/${todo.id}`}>
-              {todo.todo} {todo.completed ? "✅" : "❌"}
+             {todo.id} {todo.todo} {todo.completed ? "✅" : "❌"}
             </Link>
           </li>
       ))}
@@ -76,10 +79,16 @@ export default function TodoPage({ page, setPage, search }) {
         <input type="text" value={newTodo}
           placeholder="Add new todo..."
           onChange={(e) => setNewTodo(e.target.value)}
-          className=""
+          className="input"
         />
-        <button onClick={handleAddTodo}>Add Todo</button>
+        <label>Completed</label>
+        <input type="checkbox"
+          checked={completed}
+          onChange={(e) => setCompleted(e.target.checked)}
+        />
+        <button onClick={handleAddTodo} className="btn w-40">Add Todo</button>
       </div>
+      <TodoForm />
     </div>
   )
 }

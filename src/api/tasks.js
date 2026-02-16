@@ -41,7 +41,7 @@ export const getTask = async id => {
 }
 
 export const addTask = async (todo) => {
-  const {data} = await api.post("/todos", todo)
+  const {data} = await api.post("/todos/add", todo)
   return data;
 }
 
