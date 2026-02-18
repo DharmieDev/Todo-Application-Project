@@ -5,6 +5,8 @@ import { ErrorFallback } from './components/ErrorFallback'
 import { Route, Routes } from 'react-router'
 import NavBar from './components/NavBar'
 import { useState } from 'react'
+import AddTodo from './pages/AddTodo'
+import ProtectedRoute from './components/ProtectedRoute'
 
 const TodoPage = lazy(() => import("./pages/TodoPage"))
 const TodoDetails = lazy(() => import("./pages/TodoDetails"))
@@ -30,12 +32,17 @@ function App() {
               searchInput={searchInput} setSearchInput={setSearchInput}
             />
             <Routes>
-              <Route path="/" element={<TodoPage
-                page={page} setPage={setPage}
-                search={search} setSearch={setSearch}
-                searchInput={searchInput} setSearchInput={setSearchInput}
-              />}>
-                <Route path="/todo/:id" element={<TodoDetails />} />
+              <Route path="/" element={
+                <ProtectedRoute>
+                  <TodoPage
+                    page={page} setPage={setPage}
+                    search={search} setSearch={setSearch}
+                    searchInput={searchInput} setSearchInput={setSearchInput}
+                  />
+                </ProtectedRoute>
+              }>
+                <Route path="/task/:id" element={<TodoDetails />} />
+                <Route path='/add' element={<AddTodo />} />
               </Route>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />

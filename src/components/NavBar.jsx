@@ -1,6 +1,10 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useAuthMutation } from "../hooks/useAuthMutation";
 
-export default function NavBar({setPage, setSearch, searchInput, setSearchInput}) {
+export default function NavBar({ setPage, setSearch, searchInput, setSearchInput }) {
+  const { logout } = useAuthMutation();
+  const navigate = useNavigate();
+  
   return (
     <div className="navbar  bg-gray-200 dark:bg-gray-700 shadow-sm">
       <div className="flex-1">
@@ -28,6 +32,18 @@ export default function NavBar({setPage, setSearch, searchInput, setSearchInput}
           </li>
           <li>
             <Link to="/">Home</Link>
+          </li>
+          <li>
+          <Link to={"/add"}>Add Todo</Link>
+          </li>
+          <li>
+            <button
+              className="btn"
+              onClick={() => {
+                logout();
+                navigate("/login")
+              }}
+            >Logout</button>
           </li>
         </ul>
       </div>

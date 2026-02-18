@@ -7,57 +7,26 @@ export const useTaskMutations = () => {
   const addMutation = useMutation({
     mutationFn: addTask,
     onSuccess: (newTask) => {
-      queryClient.setQueriesData(
-        { queryKey: ["todos"] },
-        oldData => {
-          if (!oldData?.todos) return oldData;
-          const newTodoId = {
-            ...newTask,
-            id: crypto.randomUUID()
-
-          }
-          return {
-            ...oldData,
-            todos: [newTodoId, ...oldData.todos],
-            total: oldData.total + 1
-          };
-        }
-      )
+      queryClient.setQueryData(["tasks"], (oldTasks) => {
+        if (!oldTasks) return { tasks: [newTask] };
+        return { ...oldTasks, tasks: [newTask, ...oldTasks.tasks] };
+      })
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
     }
   })
   
   const updateMutation = useMutation({
-    mutationFn: ({ id, updates }) => updateTask(id, updates),
-    onSuccess: (updatedTask) => {
-      const queries = queryClient.getQueriesData({ queryKey: ["todos"] });
-      queries.forEach(([queryKey, queryData]) => {
-        if (!queryData?.todos) return;
-        queryClient.setQueryData(queryKey, {
-          ...queryData,
-          todos: queryData.todos.map((todo) => todo.id === updatedTask.id ? updatedTask : todo)
-        })
-      })
-      
-      queryClient.setQueryData(["todos", "single", updatedTask.id], updatedTask);
+    mutationFn: updateTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
     }
   });
   
   const deleteMutation = useMutation({
     mutationFn: deleteTask,
-    onSuccess: (deletedTask, id) => {
-      queryClient.removeQueries({
-        queryKey: ["todos", id]
-      });
-      queryClient.setQueriesData(
-        { queryKey: ["todos"] },
-        (oldData) => {
-          if (!oldData?.todos) return oldData;
-          return {
-            ...oldData,
-            todos: oldData.todos.filter((todo) => todo.id !== id)
-          }
-        }
-      );
+    onSuccess: (data, deletedId) => {
+      queryClient.removeQueries({queryKey: ["tasks", "single", deletedId]})
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
     }
   });
   return {
