@@ -25,10 +25,10 @@ Conditional rendering for better UX
 
 Setup Instructions
 1. Clone the Repository
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/DharmieDev/Todo-Application-Project
 
 2. Navigate into the Project Folder
-cd your-repo-name
+cd Todo-Application-Project
 
 3. Install Dependencies
 npm install
