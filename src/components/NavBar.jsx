@@ -38,7 +38,7 @@ export default function NavBar({ setPage, setSearch, searchInput, setSearchInput
           </li>
           <li>
             <button
-              className="btn"
+              className="btn hover:bg-gray-600"
               onClick={() => {
                 logout();
                 navigate("/login")

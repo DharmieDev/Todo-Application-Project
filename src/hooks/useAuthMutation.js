@@ -12,7 +12,6 @@ export const useAuthMutation = () => {
   const loginMutation = useMutation({
     mutationFn: loginUser,
     onSettled: (data) => {
-      console.log(data);
       localStorage.setItem("token", data.accessToken)
       localStorage.setItem("refreshToken", data.refreshToken)
       queryClient.invalidateQueries({ queryKey: ["me"] });
