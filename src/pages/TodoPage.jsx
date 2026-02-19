@@ -1,17 +1,21 @@
 import { useState } from "react";
 import { useTasks } from "../hooks/useTasks";
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useLocation } from "react-router";
 import TodoForm from "../components/TodoForm";
 
 export default function TodoPage({ page, setPage, search }) {
   const [filter, setFilter] = useState("ALL");
+  const location = useLocation();
+  const isDetailPage = location.pathname.includes("/task/");
 
   const { data, isLoading, isError } = useTasks(page, search, filter);
   // total pages
   const totalPages = data ? Math.ceil(data.total / 10) : 0;
 
   if (isLoading) {
-    return <span className="loading loading-spinner loading-xl">Loading...</span>;
+    return (
+      <span className="loading loading-spinner loading-xl">Loading...</span>
+    );
   }
 
   if (isError) {
@@ -19,8 +23,8 @@ export default function TodoPage({ page, setPage, search }) {
   }
 
   return (
-    <div className="grid grid-cols-2 m-2 p-4">
-      <div className="flex flex-col gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 m-2 p-4 gap-6">
+      <div className={`${isDetailPage ? 'hidden md:block' : 'block'}flex flex-col gap-6`}>
         {/* Filter*/}
         <select
           value={filter}

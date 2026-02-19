@@ -31,7 +31,7 @@ export default function Login() {
           form.handleSubmit();
         }}
       >
-        <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+        <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-2xs md:w-xs border p-4">
           <form.Field
             name="email"
             validators={{

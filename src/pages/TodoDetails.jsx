@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router";
 import { useTaskMutations } from "../hooks/useTasksMutation";
 import { useQuery } from "@tanstack/react-query";
 import { getTask } from "../api/tasks";
+import { ChevronLeft } from "@boxicons/react";
 
 export default function TodoDetails() {
   const navigate = useNavigate();
@@ -48,6 +49,9 @@ export default function TodoDetails() {
 
   return (
     <div className="flex flex-col gap-10 m-9">
+      <button onClick={() => navigate(-1)} className="btn w-[20%]">
+        <ChevronLeft/>
+      </button>
       <span>{data.id}</span>
       <h2 className="text-3xl font-bold">{data.name}</h2>
       <p>Description: {data.description}</p>
