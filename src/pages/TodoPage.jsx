@@ -65,7 +65,7 @@ export default function TodoPage({ page, setPage, search }) {
             {page} of {totalPages}
           </button>
           <button
-            className="join-item btn"
+            className="join-item btn light"
             disabled={page >= totalPages}
             onClick={() => setPage((p) => p + 1)}
           >
