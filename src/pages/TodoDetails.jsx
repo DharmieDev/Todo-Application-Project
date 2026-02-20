@@ -49,7 +49,7 @@ export default function TodoDetails() {
 
   return (
     <div className="flex flex-col gap-10 m-9">
-      <button onClick={() => navigate(-1)} className="btn w-[20%]">
+      <button onClick={() => navigate(-1)} className="btn w-[20%] md:hidden">
         <ChevronLeft/>
       </button>
       <span>{data.id}</span>
