@@ -7,6 +7,7 @@ export default function TodoPage({ page, setPage, search }) {
   const [filter, setFilter] = useState("ALL");
   const location = useLocation();
   const isDetailPage = location.pathname.includes("/task/");
+  const isAddPage = location.pathname.includes("/add");
 
   const { data, isLoading, isError } = useTasks(page, search, filter);
   // total pages
@@ -24,7 +25,7 @@ export default function TodoPage({ page, setPage, search }) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 m-2 p-4 gap-6">
-      <div className={`${isDetailPage ? 'hidden md:block' : 'block'}flex flex-col gap-6`}>
+      <div className={`${isDetailPage || isAddPage ? 'hidden md:block' : 'block'} flex flex-col gap-6`}>
         {/* Filter*/}
         <select
           value={filter}
@@ -77,7 +78,7 @@ export default function TodoPage({ page, setPage, search }) {
           </button>
         </div>
       </div>
-      <div>
+      <div className={`${isDetailPage || isAddPage ? 'block' : 'hidden md:block'}`}>
         <Outlet />
         {/* Add Todo Form */}
       </div>
