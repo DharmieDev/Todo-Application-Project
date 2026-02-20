@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useTaskMutations } from "../hooks/useTasksMutation";
+import { useNavigate } from "react-router";
+import { ChevronLeft } from "@boxicons/react";
 
 export default function AddTodo() {
   const [name, setName] = useState("");
@@ -7,6 +9,7 @@ export default function AddTodo() {
   const [priority, setPriority] = useState("LOW");
   const [description, setDescription] = useState("");
   const { addMutation, isLoading } = useTaskMutations();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,6 +28,11 @@ export default function AddTodo() {
 
   return (
     <div>
+      <button onClick={() => navigate(-1)}
+        className="btn md:hidden"
+      >
+        <ChevronLeft />
+      </button>
       <form onSubmit={handleSubmit} className="flex flex-col gap-5 m-10">
         <input
           type="text"
@@ -43,7 +51,7 @@ export default function AddTodo() {
         <div className="flex gap-3">
           <select
             value={priority}
-            className="select bg-gray-700 w-[20%] border-none"
+            className="select bg-gray-700 md:w-[20%] border-none"
             onChange={(e) => setPriority(e.target.value)}
           >
             <option value={"LOW"}>LOW</option>
@@ -52,7 +60,7 @@ export default function AddTodo() {
           </select>
           <select
             value={status}
-            className="select bg-gray-700 w-[20%] border-none"
+            className="select bg-gray-700 md:w-[20%] border-none"
             onChange={(e) => setStatus(e.target.value)}
           >
             <option value={"TODO"}>TODO</option>
