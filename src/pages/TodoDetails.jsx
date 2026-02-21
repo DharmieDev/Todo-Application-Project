@@ -53,8 +53,8 @@ export default function TodoDetails() {
         <ChevronLeft/>
       </button>
       <span>{data.id}</span>
-      <h2 className="text-3xl font-bold">{data.name}</h2>
-      <p>Description: {data.description}</p>
+      <h2 className="text-3xl font-bold wrap-break-word">{data.name}</h2>
+      <p className="wrap-break-word">Description: {data.description}</p>
       <p>Status: {data.status}</p>
       <div>
         <p className="text-[13px]">Priority: {data.priority}</p>
@@ -66,7 +66,7 @@ export default function TodoDetails() {
           <select
             value={data.priority}
             onChange={handlePriorityChange(data)}
-            className="select bg-gray-700 w-[50%] border-none"
+            className="select light: bg-gray-300 dark:bg-gray-700 w-[50%] border-none"
           >
             <option value="">Select Priority</option>
             <option value={"LOW"}>LOW</option>
@@ -76,7 +76,7 @@ export default function TodoDetails() {
           <select
             value={data.status}
             onChange={handleStatusChange(data)}
-            className="select bg-gray-700 w-[50%] border-none"
+            className="select light: bg-gray-300  dark:bg-gray-700 w-[50%] border-none"
           >
             <option>Select Status</option>
             <option value={"TODO"}>TODO</option>

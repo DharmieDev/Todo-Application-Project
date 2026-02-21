@@ -25,7 +25,7 @@ export default function TodoPage({ page, setPage, search }) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 m-2 p-4 gap-6">
-      <div className={`${isDetailPage || isAddPage ? 'hidden md:block' : 'block'} flex flex-col gap-6`}>
+      <div className={`${isDetailPage || isAddPage ? 'hidden md:block' : 'block'} flex flex-col gap-6 min-w-0`}>
         {/* Filter*/}
         <select
           value={filter}
@@ -47,9 +47,9 @@ export default function TodoPage({ page, setPage, search }) {
             <li key={task.id}>
               <Link to={`/task/${task.id}`}>
                 <h2>{task.id}</h2>
-                <div className="block">
-                  <h2 className="text-[20px] font-bold">Name: {task.name}</h2>
-                  <p className="text-[16px]">Description: {task.description}</p>
+                <div className="flex flex-col">
+                  <h2 className="text-[20px] font-bold wrap-break-word">Name: {task.name}</h2>
+                  <p className="text-[16px] wrap-break-word">Description: {task.description}</p>
                   <p>Status: {task.status}</p>
                 </div>
               </Link>
