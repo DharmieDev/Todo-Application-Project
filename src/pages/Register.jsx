@@ -108,6 +108,7 @@ export default function Register() {
                   onChange={(e) => field.handleChange(e.target.value)}
                   className="input border-none"
                   placeholder="Enter your Password"
+                  type="password"
                 />
                 {field.state.meta.errors && (
                   <p className="text-red-400">{field.state.meta.errors[0]}</p>

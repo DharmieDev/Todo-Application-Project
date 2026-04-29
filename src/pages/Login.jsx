@@ -66,6 +66,7 @@ export default function Login() {
               <div>
                 <legend className="fieldset-legend">Password</legend>
                 <input
+                type="password"
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                   className="input border-none"
