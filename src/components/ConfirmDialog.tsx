@@ -1,5 +1,10 @@
+type ConfirmDialogProps = {
+  message: string
+  onConfirm: () => void
+  onCancel: () => void
+}
 
-export default function ConfirmDialog({ message, onConfirm, onCancel }) {
+export default function ConfirmDialog({ message, onConfirm, onCancel }: ConfirmDialogProps) {
   return (
     <div className="modal p-4 bg-white rounded shadow">
       <p className="mb-4">{message}</p>

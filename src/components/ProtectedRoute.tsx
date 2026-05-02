@@ -1,7 +1,11 @@
 import { Navigate } from "react-router";
 import { useAuthMutation } from "../hooks/useAuthMutation";
 
-export default function ProtectedRoute({ children }) {
+type ProtectedRouteProps = {
+  children: React.ReactNode
+}
+
+export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { meQuery } = useAuthMutation();
   const token = localStorage.getItem("token");
 

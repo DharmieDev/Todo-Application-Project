@@ -3,12 +3,21 @@ import { useAuthMutation } from "../hooks/useAuthMutation";
 import { MenuRight } from "@boxicons/react";
 import { useState } from "react";
 
+type NavBarProps = {
+  page: number
+  search: string
+  setPage: (page: number) => void
+  setSearch: (search: string) => void
+  searchInput: string
+  setSearchInput: (input: string) => void
+}
+
 export default function NavBar({
   setPage,
   setSearch,
   searchInput,
   setSearchInput,
-}) {
+}: NavBarProps) {
   const { logout } = useAuthMutation();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
