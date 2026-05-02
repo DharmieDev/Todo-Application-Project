@@ -1,15 +1,25 @@
 import { useState } from "react";
 import { useTasks } from "../hooks/useTasks";
 import { Link, Outlet, useLocation } from "react-router";
-import TodoForm from "../components/TodoForm";
+import { Status } from "../types/Task";
 
-export default function TodoPage({ page, setPage, search }) {
-  const [filter, setFilter] = useState("ALL");
+type TodoPageProps = {
+  page: number
+  setPage: React.Dispatch<React.SetStateAction<number>>
+  search: string
+  setSearch: React.Dispatch<React.SetStateAction<string>>
+  searchInput: string
+  setSearchInput: React.Dispatch<React.SetStateAction<string>>
+}
+type FilterStatus = Status | "ALL"
+
+export default function TodoPage({ page, setPage, search }: TodoPageProps) {
+  const [filter, setFilter] = useState<FilterStatus>("ALL");
   const location = useLocation();
   const isDetailPage = location.pathname.includes("/task/");
   const isAddPage = location.pathname.includes("/add");
 
-  const { data, isLoading, isError } = useTasks(page, search, filter);
+  const { data, isLoading, isError } = useTasks({page, search, status: filter});
   // total pages
   const totalPages = data ? Math.ceil(data.total / 10) : 0;
 
@@ -29,9 +39,9 @@ export default function TodoPage({ page, setPage, search }) {
         {/* Filter*/}
         <select
           value={filter}
-          onChange={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             setPage(1);
-            setFilter(e.target.value);
+            setFilter(e.target.value as FilterStatus);
           }}
           className="btn w-30 p-2.5 rounded-md select"
         >

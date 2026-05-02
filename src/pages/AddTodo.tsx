@@ -2,16 +2,20 @@ import { useState } from "react";
 import { useTaskMutations } from "../hooks/useTasksMutation";
 import { useNavigate } from "react-router";
 import { ChevronLeft } from "@boxicons/react";
+import { Priority, Status } from "../types/Task";
 
 export default function AddTodo() {
-  const [name, setName] = useState("");
-  const [status, setStatus] = useState("TODO");
-  const [priority, setPriority] = useState("LOW");
-  const [description, setDescription] = useState("");
-  const { addMutation, isLoading } = useTaskMutations();
+  const [name, setName] = useState<string>("");
+  const [status, setStatus] = useState<Status>("TODO");
+  const [priority, setPriority] = useState<Priority>("LOW");
+  const [description, setDescription] = useState<string>("");
+  
+  const { addMutation } = useTaskMutations();
+  const isLoading = addMutation.isPending;
+  
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!name.trim()) return;
     addMutation.mutate({
@@ -52,7 +56,7 @@ export default function AddTodo() {
           <select
             value={priority}
             className="select bg-gray-700 md:w-[20%] border-none"
-            onChange={(e) => setPriority(e.target.value)}
+            onChange={(e) => setPriority(e.target.value as Priority)}
           >
             <option value={"LOW"}>LOW</option>
             <option value={"MEDIUM"}>MEDIUM</option>
@@ -61,7 +65,7 @@ export default function AddTodo() {
           <select
             value={status}
             className="select bg-gray-700 md:w-[20%] border-none"
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(e) => setStatus(e.target.value as Status)}
           >
             <option value={"TODO"}>TODO</option>
             <option value={"IN_PROGRESS"}>IN_PROGRESS</option>
