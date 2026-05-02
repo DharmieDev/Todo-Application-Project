@@ -3,27 +3,31 @@ import { useTaskMutations } from "../hooks/useTasksMutation";
 import { useQuery } from "@tanstack/react-query";
 import { getTask } from "../api/tasks";
 import { ChevronLeft } from "@boxicons/react";
+import { Priority, Status, Task } from "../types/Task";
 
 export default function TodoDetails() {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const { data, isLoading, isError } = useQuery({
+  const { id } = useParams<{ id: string }>();
+  if(!id) return <span>Task not found</span>
+  
+  const { data, isLoading, isError } = useQuery<Task>({
     queryKey: ["tasks", id],
     queryFn: () => getTask(id),
+    enabled: Boolean(id),
   });
 
   const { updateMutation, deleteMutation } = useTaskMutations();
-  const handlePriorityChange = (task) => (e) => {
+  const handlePriorityChange = (task: Task) => (e: React.ChangeEvent<HTMLSelectElement>) => {
     updateMutation.mutate({
       id: task.id,
-      updates: { priority: e.target.value },
+      updates: { priority: e.target.value as Priority},
     });
   };
 
-  const handleStatusChange = (task) => (e) => {
+  const handleStatusChange = (task: Task) => (e: React.ChangeEvent<HTMLSelectElement>) => {
     updateMutation.mutate({
       id: task.id,
-      updates: { status: e.target.value },
+      updates: { status: e.target.value as Status},
     });
   };
 
@@ -68,7 +72,7 @@ export default function TodoDetails() {
             onChange={handlePriorityChange(data)}
             className="select light: bg-gray-300 dark:bg-gray-700 w-[50%] border-none"
           >
-            <option value="">Select Priority</option>
+            <option disabled value="">Select Priority</option>
             <option value={"LOW"}>LOW</option>
             <option value={"MEDIUM"}>MEDIUM</option>
             <option value={"HIGH"}>HIGH</option>

@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router";
 import { useAuthMutation } from "../hooks/useAuthMutation";
 import { useForm } from "@tanstack/react-form";
+import { AxiosError } from "axios";
+import { ApiErrorResponse } from "../types/Task";
+import { RegisterFormValues} from "../types/auth";
 
 export default function Register() {
   const { registerMutation } = useAuthMutation();
@@ -18,11 +21,11 @@ export default function Register() {
           alert("Registration successful!");
           navigate("/login");
         },
-        onError: (error) => {
+        onError: (error: AxiosError<ApiErrorResponse>) => {
           const response = error.response?.data;
           if (response?.errors) {
             Object.entries(response.errors).forEach(([field, messages]) => {
-              form.setFieldMeta(field, (meta) => ({
+              form.setFieldMeta(field as keyof RegisterFormValues, (meta) => ({
                 ...meta,
                 errors: messages,
               }));

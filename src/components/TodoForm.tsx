@@ -1,21 +1,17 @@
-import { useEffect } from "react";
 import { useState } from "react";
 
-export default function TodoForm({ onSubmit, todo = null, onClose }) {
-  const [text, setText] = useState(todo?.todo || "");
-  const [completed, setCompleted] = useState(todo?.completed || false);
+type TodoFormProps = {
+  onSubmit: (todo: { todo: string; completed: boolean; id?: string }) => void
+  todo?: { todo: string; completed: boolean; id?: string }
+  onClose: () => void
+}
 
-  // useEffect((todo) => {
-  //   if (todo) {
-  //     setText(todo.todo);
-  //     setCompleted(todo.completed);
-  //   } else {
-  //     setText("");
-  //     setCompleted(false);
-  //   }
-  // }, [todo]);
 
-  const handleSubmit = (e) => {
+export default function TodoForm({ onSubmit, todo, onClose }: TodoFormProps) {
+  const [text, setText] = useState(todo?.todo ?? "");
+  const [completed, setCompleted] = useState(todo?.completed ?? false);
+
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!text.trim()) return;
     onSubmit({ todo: text, completed, id: todo?.id });

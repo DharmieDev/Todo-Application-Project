@@ -1,5 +1,4 @@
 import { lazy, Suspense } from 'react'
-import './App.css'
 import { ErrorBoundary } from 'react-error-boundary'
 import { ErrorFallback } from './components/ErrorFallback'
 import { Route, Routes } from 'react-router'
@@ -19,7 +18,6 @@ function App() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
-
 
   return (
     <div>
